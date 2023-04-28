@@ -50,64 +50,149 @@ public class MainPageTest {
 
     }
 
+
+
+
+
+
+
+
+
+
+
+
     @Test
     public void findCourseSyllabus() {
-        Configuration.timeout = 5000;
+        //Opens the webpage for ltu.se
         open("https://www.ltu.se/");
-        mainPage.cookieButton.click();
 
+        //Accept cookies
+        mainPage.cookieButton.click();
+        //Verify that we are on the right page
         String url = WebDriverRunner.url();
         Assertions.assertEquals(url, "https://www.ltu.se/");
 
-        mainPage.buttonSearch.click();
+        mainPage.studentButton.shouldBe(visible).click();
+        //Verify that we are on the right page
+        String page = WebDriverRunner.url();
+        Assertions.assertEquals(page, "https://www.ltu.se/student");
 
-        mainPage.searchField.sendKeys("I0015N");
+        mainPage.loggaIn.shouldBe(visible).click();
 
-        Actions actions = new Actions(WebDriverRunner.getWebDriver());
-        actions.sendKeys(Keys.ENTER).perform();
-        String title = title();
-        Assertions.assertEquals(title, "Sök - Luleå tekniska universitet, LTU");
+        // Read Facebook credentials from JSON file
+        String email = null;
+        String password = null;
+        File jsonFile = new File("C:\\temp\\ltu.json");
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(jsonFile);
+            email = jsonNode.get("ltuCredentials").get("email").asText();
+            password = jsonNode.get("ltuCredentials").get("password").asText();
+        } catch (IOException e) {
 
-        //Stuck here, thank you for helping me Todd.
-        //It would be even better if the program could press the "Test av IT-system, 7,5 högskolepoäng"
-        // Find the element using the appropriate selector
-        SelenideElement element = $(By.cssSelector("a[title='Kursplan']"));
+        }
 
-// Trigger a click event on the element
-        element.shouldBe(Condition.visible).click();
+        //Send the credentials into the "användarid" and "lösenord" field
+        mainPage.inputUsername.sendKeys(email);
+        mainPage.inputPassword.sendKeys(password);
+
+        //Press button to login
+        mainPage.inputSubmit.click();
+
+        //Press button "Kursrum"
+        mainPage.kursrum.click();
+
+
+        // Get the window handle of the main window
+        String mainWindowHandle = WebDriverRunner.getWebDriver().getWindowHandle();
+
+// Get the handles of all windows currently open
+        Set<String> allWindowHandles = WebDriverRunner.getWebDriver().getWindowHandles();
+
+// Switch to the popup window
+        for (String windowHandle : allWindowHandles) {
+            if (!windowHandle.equals(mainWindowHandle)) {
+                WebDriverRunner.getWebDriver().switchTo().window(windowHandle);
+                break;
+            }
+        }
+
+        //Press "Kurser" button in canvas when the button is visible
+        mainPage.kurser.shouldBe(visible).click();
+
+        //Press on Test av IT course
+        mainPage.testavit.click();
+
+        //Press on "Moduler" when the button is visible
+        mainPage.moduler.shouldBe(visible).click();
+
+        //Find course syllabus
+
 
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     @Test
-    void testingCourse() {
-        Configuration.timeout = 5000;
-        open("https://www.ltu.se/edu/course/I00/I0015N/I0015N-Test-av-IT-system-1.81215");
-        mainPage.cookieButton.click();
-        mainPage.spanRen.click();
-        mainPage.kursplanButton.click();
+    void finalExaminationInformation() {
 
-
-    }
-
-    @Test
-    void finalExamination() {
+        //Opens the webpage for ltu.se
         open("https://www.ltu.se/");
-        mainPage.cookieButton.click();
 
+        //Accept cookies
+        mainPage.cookieButton.click();
+        //Verify that we are on the right page
         String url = WebDriverRunner.url();
         Assertions.assertEquals(url, "https://www.ltu.se/");
 
-        mainPage.studentButton.click();
+        mainPage.studentButton.shouldBe(visible).click();
+        //Verify that we are on the right page
+        String page = WebDriverRunner.url();
+        Assertions.assertEquals(page, "https://www.ltu.se/student");
 
-        //hitta logga in sen sätt in inpitlogandpass() under
-
-    }
-
-    @Test
-    void inputlogandpass() {
-
-        open("https://weblogon.ltu.se/cas/login?service=https%3A%2F%2Fportal.ltu.se%2Fc%2Fportal%2Flogin%3Fredirect%3D%252Fgroup%252Fstudent%252Fstart%26p_l_id%3D1076063");
-
+        mainPage.loggaIn.shouldBe(visible).click();
 
         // Read Facebook credentials from JSON file
         String email = null;
@@ -167,16 +252,15 @@ public class MainPageTest {
         Assertions.assertTrue(mainPage.info.text().contains("9:00"));
         Assertions.assertTrue(mainPage.info.text().contains("14:00"));
 
+
+
     }
+
+
 }
 
 
 
-           /* Actions actions = new Actions(WebDriverRunner.getWebDriver());
-            actions.sendKeys("I0015N").perform();
-            actions.sendKeys(Keys.ENTER).perform();
-
-            mainPage.courseButton.click();*/
 
 
 
@@ -205,21 +289,7 @@ public class MainPageTest {
 
 
 
-            /*@Test
-    public void toolsMenu() {
-        mainPage.toolsMenu.click();
 
-        $("div[data-test='main-submenu']").shouldBe(visible);
-    }
 
-    /*Test
-    public void navigationToAllTools() {
-        mainPage.seeDeveloperToolsButton.click();
-        mainPage.findYourToolsButton.click();
-
-        $("#products-page").shouldBe(visible);
-
-        assertEquals("All Developer Tools and Products by JetBrains", Selenide.title());
-    }*/
 
     

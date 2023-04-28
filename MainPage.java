@@ -64,6 +64,15 @@ public class MainPage {
 
     public SelenideElement info = $x("//div[contains(@class, 'clearfix')]");
 
+    public SelenideElement loggaIn = $x("//div[contains(@class, 'is-6-tablet')][.//img[contains(@alt, 'Man,')]]");
+
+
+   
+
+    
+
+    
+
     
 
     
