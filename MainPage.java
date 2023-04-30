@@ -52,9 +52,9 @@ public class MainPage {
 
     public SelenideElement kursrum = $x("//a[@title='Kurser i Canvas']");
 
+    //public SelenideElement kurser = $x("//li[@class='menu-item ic-app-header__menu-list-item ic-app-header__menu-list-item--active']/button[@id='global_nav_courses_link']");
 
-
-    public SelenideElement kurser = $x("//button[contains(@id, 'global_nav_courses_link')]");
+    //public SelenideElement kurser = $x("//button[contains(@id, 'global_nav_courses_link')]");
 
     public SelenideElement testavit = $x("/html/body/div[4]/span/span/div/div/div/div/div/ul[1]/li[8]/a");
 
@@ -66,9 +66,24 @@ public class MainPage {
 
     public SelenideElement loggaIn = $x("//div[contains(@class, 'is-6-tablet')][.//img[contains(@alt, 'Man,')]]");
 
+    public SelenideElement kursMeny = $x("//div[@class='fOyUs_bGBk']");
+    //public SelenideElement kurser = $x("/html/body/div[3]/header[2]/div[1]/ul/li[3]/button/div[1]/svg");
 
+    //public SelenideElement kurser = $x("//div[@class='menu-item__text' and text()='Kurser']");
+
+    public SelenideElement courseSyllabus = $x("/html/body/div[3]/div[2]/div[2]/div[3]/div[1]/div/div[4]/div[2]/div[1]/div[2]/ul/li[10]/div/div[1]/div[1]/span/a/span[1]");
+
+    public SelenideElement firstLink = $x("//a[@href='#'][@aria-selected='false'][@data-termin-text='V23'][1]");
+
+    public SelenideElement h4SelectSemesterHeader = $x("//*[@id='select-semester-header']");
+
+    public SelenideElement kurser = $("button[id*='courses']");
+
+    public SelenideElement pdf = $x("//img[@alt='PDF']");
+
+    
    
-
+    
     
 
     

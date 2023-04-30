@@ -19,6 +19,7 @@ import java.time.Duration;
 import java.util.Set;
 
 import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.SetValueOptions.withText;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -104,7 +105,7 @@ public class MainPageTest {
 
 
         // Get the window handle of the main window
-        String mainWindowHandle = WebDriverRunner.getWebDriver().getWindowHandle();
+        /*String mainWindowHandle = WebDriverRunner.getWebDriver().getWindowHandle();
 
 // Get the handles of all windows currently open
         Set<String> allWindowHandles = WebDriverRunner.getWebDriver().getWindowHandles();
@@ -113,6 +114,22 @@ public class MainPageTest {
         for (String windowHandle : allWindowHandles) {
             if (!windowHandle.equals(mainWindowHandle)) {
                 WebDriverRunner.getWebDriver().switchTo().window(windowHandle);
+                break;
+            }
+        }*/
+
+        // Get the window handle of the main window
+        String mainWindowHandle = WebDriverRunner.getWebDriver().getWindowHandle();
+
+// Get the handles of all windows currently open
+        Set<String> allWindowHandles = WebDriverRunner.getWebDriver().getWindowHandles();
+
+// Switch to the first popup window
+        String firstPopupWindowHandle = "";
+        for (String windowHandle : allWindowHandles) {
+            if (!windowHandle.equals(mainWindowHandle)) {
+                firstPopupWindowHandle = windowHandle;
+                WebDriverRunner.getWebDriver().switchTo().window(firstPopupWindowHandle);
                 break;
             }
         }
@@ -126,9 +143,24 @@ public class MainPageTest {
         //Press on "Moduler" when the button is visible
         mainPage.moduler.shouldBe(visible).click();
 
-        //Find course syllabus
+        //Find course syllabus choice in modules
+        mainPage.courseSyllabus.shouldBe(visible).click();
+
+        WebDriverRunner.getWebDriver().close();
+
+// Switch to the second popup window
+        String secondPopupWindowHandle = "";
+        for (String windowHandle : allWindowHandles) {
+            if (!windowHandle.equals(mainWindowHandle) && !windowHandle.equals(firstPopupWindowHandle)) {
+                secondPopupWindowHandle = windowHandle;
+                WebDriverRunner.getWebDriver().switchTo().window(secondPopupWindowHandle);
+                break;
+            }
+        }
 
 
+       open("https://www.ltu.se/edu/course/I00/I0015N/I0015N-Test-av-IT-system-1.81215?kursView=kursplan&termin=V23)";
+        mainPage.pdf.click();
     }
 
 
